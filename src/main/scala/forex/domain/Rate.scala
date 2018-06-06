@@ -1,5 +1,7 @@
 package forex.domain
 
+import cats.Show
+import cats.implicits._
 import io.circe._
 import io.circe.generic.semiauto._
 
@@ -22,4 +24,8 @@ object Rate {
 
   implicit val encoder: Encoder[Rate] =
     deriveEncoder[Rate]
+
+  implicit val showPair: Show[Rate.Pair] = Show.show { pair =>
+    pair.from.show + pair.to.show
+  }
 }
