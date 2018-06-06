@@ -20,5 +20,4 @@ object Converters {
       price = rate.price,
       timestamp = rate.timestamp
     )
-
 }
