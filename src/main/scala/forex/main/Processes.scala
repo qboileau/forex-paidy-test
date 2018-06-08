@@ -11,9 +11,9 @@ case class Processes(
     oneForgeClient: OneForgeClient,
 ) {
 
-  implicit final lazy val _oneForge: s.OneForge[AppEffect] =
-    s.OneForge.live[AppStack](oneForgeClient)
+  implicit final lazy val _oneForge: s.OneForgeAlgebra[AppEffect] =
+    s.OneForgeInterpreters.live[AppStack](oneForgeClient)
 
-  final val Rates = p.Rates[AppEffect]
+  final val Rates = p.RatesProcesses[AppEffect]
 
 }

@@ -2,14 +2,14 @@ package forex
 
 import monix.eval.Task
 import monix.execution.Scheduler
-import org.atnos.eff._
+import org.atnos.eff.{|=, _}
 import org.zalando.grafter._
 
 import scala.concurrent.ExecutionContext
 
 package object main {
 
-  type AppStack = Fx.fx1[Task]
+  type AppStack = Fx.fx2[Memoized, Task]
   type AppEffect[R] = Eff[AppStack, R]
 
   def toStartErrorString(results: List[StartResult]): String =

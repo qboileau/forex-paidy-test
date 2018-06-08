@@ -7,7 +7,7 @@ package messages {
 
   sealed trait ProcessError extends Throwable with NoStackTrace
   object ProcessError {
-    final case object Generic extends ProcessError
+    final case class Generic(msg: String) extends ProcessError
     final case class Parsing(msg: String) extends ProcessError
     final case class System(underlying: Throwable) extends ProcessError
   }
