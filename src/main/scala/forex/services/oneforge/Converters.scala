@@ -5,7 +5,7 @@ import java.time.ZoneOffset
 import cats.implicits._
 import forex.domain.{Currency, Rate, Timestamp => DTimestamp}
 import forex.services.oneforge.ServiceError.Generic
-import forex.services.oneforge.protocol.{PairSymbol, Quotes, QuoteTime => PTimestamp}
+import forex.services.oneforge.protocol.{PairSymbol, Quote, QuoteTime => PTimestamp}
 
 /**
   * Converter OnForge protocol => Domain object
@@ -13,7 +13,7 @@ import forex.services.oneforge.protocol.{PairSymbol, Quotes, QuoteTime => PTimes
 object Converters {
 
   def toRate(
-    quote: Quotes
+    quote: Quote
   ): ServiceError Either Rate =
     toPair(quote.symbol).map { currencyPair =>
       Rate(

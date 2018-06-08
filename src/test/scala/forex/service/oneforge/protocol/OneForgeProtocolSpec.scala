@@ -27,17 +27,17 @@ class OneForgeProtocolSpec extends WordSpec with Matchers {
           |}
         """.stripMargin
 
-      val expected = Quotes(
+      val expected = Quote(
         PairSymbol("EURUSD"),
         Price(1.17999),
         QuoteTime(Instant.ofEpochSecond(1528402819l))
       )
 
-      decode[Quotes](json).right.get should ===(expected)
+      decode[Quote](json).right.get should ===(expected)
     }
 
     "can be converted in Rate" in {
-      val quote = Quotes(
+      val quote = Quote(
         PairSymbol("EURUSD"),
         Price(1.17999),
         QuoteTime(Instant.ofEpochSecond(1528402819l))

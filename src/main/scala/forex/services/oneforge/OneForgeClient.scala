@@ -7,7 +7,7 @@ import com.typesafe.scalalogging.LazyLogging
 import forex.config.{ApplicationConfig, OneForgeConfig}
 import forex.domain.Rate
 import forex.services.oneforge.Converters.{toPairSymbol, toRate}
-import forex.services.oneforge.protocol.{PairSymbol, Quotes}
+import forex.services.oneforge.protocol.{PairSymbol, Quote}
 import org.http4s.Uri
 import org.http4s.circe.jsonOf
 import org.http4s.client.blaze._
@@ -29,7 +29,7 @@ case class OneForgeClient(
 
   private lazy val httpClient = Http1Client[IO](clientConfig).unsafeRunSync
 
-  implicit val quotesDecoder = jsonOf[IO, List[Quotes]]
+  implicit val quotesDecoder = jsonOf[IO, List[Quote]]
 
   override def start: Eval[StartResult] = StartResult.eval("OneForgeHttpClient") {
     if (config.apiKey.isEmpty) StartFailure("OneForge api key not provided")
@@ -47,7 +47,7 @@ case class OneForgeClient(
     val uri = quoteUrl(Rate.Pair.allSupported.map(toPairSymbol))
     logger.debug(s"URI: $uri")
     httpClient
-      .expect[List[Quotes]](uri)
+      .expect[List[Quote]](uri)
       .map(_.map(toRate).sequence)
   }
 
@@ -56,7 +56,7 @@ case class OneForgeClient(
     val uri = quoteUrl(pair.map(toPairSymbol))
     logger.debug(s"URI: $uri")
     httpClient
-      .expect[List[Quotes]](uri)
+      .expect[List[Quote]](uri)
       .map(_.head)
       .map(toRate)
   }
