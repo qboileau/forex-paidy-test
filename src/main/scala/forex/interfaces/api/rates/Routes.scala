@@ -21,17 +21,17 @@ case class Routes(
 
   lazy val route: server.Route =
     get {
-      pathSingleSlash {
-        getApiRequest { req ⇒
-          complete {
-            runApp(
-              Rates
-                .get(toGetRequest(req))
-                .map(_.map(result ⇒ toGetApiResponse(result)))
-            )
-          }
+      getApiRequest { req ⇒
+        complete {
+          runApp(
+            Rates
+              .get(toGetRequest(req))
+              .map(_.map(result ⇒ toGetApiResponse(result)))
+          )
         }
       }
+    } ~
+    get {
       path("all") {
         complete {
           runApp(
