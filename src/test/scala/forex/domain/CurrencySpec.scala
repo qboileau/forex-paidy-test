@@ -15,5 +15,11 @@ class CurrencySpec  extends WordSpec with Matchers {
     "rise an error if unknown string" in {
       an [ProcessError.Parsing] should be thrownBy Currency.fromString("NOT")
     }
+
+    "all supported currency pair" in {
+      val allPair = Rate.Pair.allSupported
+      allPair.count(p => p.from == p.to) should ===(0)
+      allPair.size should ===(72)
+    }
   }
 }
