@@ -3,9 +3,8 @@ package forex.domain
 import java.time.OffsetDateTime
 
 import io.circe._
-import io.circe.generic.extras.wrapped._
+import io.circe.generic.extras.semiauto._
 import io.circe.java8.time._
-import java.time.OffsetDateTime
 
 case class Timestamp(value: OffsetDateTime) extends AnyVal
 

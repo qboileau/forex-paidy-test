@@ -4,7 +4,7 @@ import java.time.Instant
 
 import cats.syntax.either._
 import io.circe.Decoder
-import io.circe.generic.extras.wrapped.deriveUnwrappedDecoder
+import io.circe.generic.extras.semiauto.deriveUnwrappedDecoder
 
 case class QuoteTime(time: Instant) extends AnyVal
 

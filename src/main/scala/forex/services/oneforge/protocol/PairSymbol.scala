@@ -2,7 +2,7 @@ package forex.services.oneforge.protocol
 
 import cats.Show
 import io.circe.Decoder
-import io.circe.generic.extras.wrapped.deriveUnwrappedDecoder
+import io.circe.generic.extras.semiauto.deriveUnwrappedDecoder
 
 case class PairSymbol(value: String) extends AnyVal
 
