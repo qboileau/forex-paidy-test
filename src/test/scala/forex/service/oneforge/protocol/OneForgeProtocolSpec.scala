@@ -1,8 +1,8 @@
 package forex.service.oneforge.protocol
 
-import java.time.{Instant, ZoneOffset}
+import java.time.{ Instant, ZoneOffset }
 
-import forex.domain.{Currency, Price, Rate, Timestamp}
+import forex.domain.{ Currency, Price, Rate, Timestamp }
 import forex.processes.rates.messages.ProcessError
 import forex.services.oneforge.protocol._
 import forex.services.oneforge.Converters._
@@ -52,7 +52,6 @@ class OneForgeProtocolSpec extends WordSpec with Matchers {
       toRate(quote).right.get should ===(expected)
     }
 
-
   }
 
   "PairSymbol" should {
@@ -64,7 +63,7 @@ class OneForgeProtocolSpec extends WordSpec with Matchers {
 
     "fail to convert with invalid currency in PairSymbol" in {
       val symbol = PairSymbol("EURUNK")
-      an [ProcessError.Parsing] should be thrownBy toPair(symbol)
+      an[ProcessError.Parsing] should be thrownBy toPair(symbol)
     }
 
     "fail to convert PairSymbol is empty" in {

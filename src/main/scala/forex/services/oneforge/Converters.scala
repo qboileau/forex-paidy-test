@@ -3,9 +3,9 @@ package forex.services.oneforge
 import java.time.ZoneOffset
 
 import cats.implicits._
-import forex.domain.{Currency, Rate, Timestamp => DTimestamp}
+import forex.domain.{ Currency, Rate, Timestamp ⇒ DTimestamp }
 import forex.services.oneforge.ServiceError.Generic
-import forex.services.oneforge.protocol.{PairSymbol, Quote, QuoteTime => PTimestamp}
+import forex.services.oneforge.protocol.{ PairSymbol, Quote, QuoteTime ⇒ PTimestamp }
 
 /**
   * Converter OnForge protocol => Domain object
@@ -13,9 +13,9 @@ import forex.services.oneforge.protocol.{PairSymbol, Quote, QuoteTime => PTimest
 object Converters {
 
   def toRate(
-    quote: Quote
+      quote: Quote
   ): ServiceError Either Rate =
-    toPair(quote.symbol).map { currencyPair =>
+    toPair(quote.symbol).map { currencyPair ⇒
       Rate(
         pair = currencyPair,
         price = quote.price,
@@ -24,25 +24,22 @@ object Converters {
     }
 
   def toPair(
-    symbol: PairSymbol
-  ): Either[ServiceError, Rate.Pair] = {
+      symbol: PairSymbol
+  ): Either[ServiceError, Rate.Pair] =
     symbol.value.grouped(3).map(Currency.fromString).take(2).toList match {
-      case from :: to :: Nil => Right(Rate.Pair(from, to))
-      case _ => Left(Generic)
+      case from :: to :: Nil ⇒ Right(Rate.Pair(from, to))
+      case _ ⇒ Left(Generic)
     }
-  }
 
   def toTimestamp(
-    timestamp: PTimestamp
-  ): DTimestamp = {
+      timestamp: PTimestamp
+  ): DTimestamp =
     DTimestamp(timestamp.time.atOffset(ZoneOffset.UTC))
-  }
 
   def toPairSymbol(
-   pair: Rate.Pair
-  ): PairSymbol = {
+      pair: Rate.Pair
+  ): PairSymbol =
     PairSymbol(
       pair.from.show + pair.to.show
     )
-  }
 }

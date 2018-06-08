@@ -31,16 +31,16 @@ case class Routes(
         }
       }
     } ~
-    get {
-      path("all") {
-        complete {
-          runApp(
-            Rates
-              .all()
-              .map(_.map(result ⇒ result.map(toGetApiResponse)))
-          )
+      get {
+        path("all") {
+          complete {
+            runApp(
+              Rates
+                .all()
+                .map(_.map(result ⇒ result.map(toGetApiResponse)))
+            )
+          }
         }
       }
-    }
 
 }

@@ -27,6 +27,6 @@ case class ExecutorsConfig(
 )
 
 case class OneForgeConfig(
-  apiKey: String,
-  baseUrl: String
+    apiKey: String,
+    baseUrl: String
 )

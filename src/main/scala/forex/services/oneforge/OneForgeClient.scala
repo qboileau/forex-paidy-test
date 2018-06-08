@@ -4,10 +4,10 @@ import cats.Eval
 import cats.effect._
 import cats.implicits._
 import com.typesafe.scalalogging.LazyLogging
-import forex.config.{ApplicationConfig, OneForgeConfig}
+import forex.config.{ ApplicationConfig, OneForgeConfig }
 import forex.domain.Rate
-import forex.services.oneforge.Converters.{toPairSymbol, toRate}
-import forex.services.oneforge.protocol.{PairSymbol, Quote}
+import forex.services.oneforge.Converters.{ toPairSymbol, toRate }
+import forex.services.oneforge.protocol.{ PairSymbol, Quote }
 import org.http4s.Uri
 import org.http4s.circe.jsonOf
 import org.http4s.client.blaze._
@@ -18,10 +18,10 @@ import scala.concurrent.duration._
 
 @readerOf[ApplicationConfig]
 case class OneForgeClient(
-  config: OneForgeConfig
+    config: OneForgeConfig
 ) extends Start
-  with Stop
-  with LazyLogging {
+    with Stop
+    with LazyLogging {
 
   private val clientConfig = BlazeClientConfig.defaultConfig.copy(
     requestTimeout = 10.second
@@ -50,7 +50,6 @@ case class OneForgeClient(
       .expect[List[Quote]](uri)
       .map(_.map(toRate).sequence)
   }
-
 
   def getRate(pair: Rate.Pair*): IO[Either[ServiceError, Rate]] = {
     val uri = quoteUrl(pair.map(toPairSymbol))

@@ -41,12 +41,12 @@ object Currency {
     case "JPY" | "jpy" ⇒ JPY
     case "SGD" | "sgd" ⇒ SGD
     case "USD" | "usd" ⇒ USD
-    case _ => throw ProcessError.Parsing(s"Unknown currency code : $s")
+    case _ ⇒ throw ProcessError.Parsing(s"Unknown currency code : $s")
   }
 
   implicit val encoder: Encoder[Currency] = Encoder.encodeString.contramap(currencyShow.show)
 
-  implicit val decoder: Decoder[Currency] = Decoder.decodeString.emap[Currency] { str =>
-    Either.catchNonFatal(Currency.fromString(str)).leftMap(t => t.getMessage)
+  implicit val decoder: Decoder[Currency] = Decoder.decodeString.emap[Currency] { str ⇒
+    Either.catchNonFatal(Currency.fromString(str)).leftMap(t ⇒ t.getMessage)
   }
 }

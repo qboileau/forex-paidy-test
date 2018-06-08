@@ -1,9 +1,9 @@
 package forex.domain
 
 import forex.processes.rates.messages.ProcessError
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.{ Matchers, WordSpec }
 
-class CurrencySpec  extends WordSpec with Matchers {
+class CurrencySpec extends WordSpec with Matchers {
 
   "Currency" should {
 
@@ -13,12 +13,12 @@ class CurrencySpec  extends WordSpec with Matchers {
     }
 
     "rise an error if unknown string" in {
-      an [ProcessError.Parsing] should be thrownBy Currency.fromString("NOT")
+      an[ProcessError.Parsing] should be thrownBy Currency.fromString("NOT")
     }
 
     "all supported currency pair" in {
       val allPair = Rate.Pair.allSupported
-      allPair.count(p => p.from == p.to) should ===(0)
+      allPair.count(p ⇒ p.from == p.to) should ===(0)
       allPair.size should ===(72)
     }
   }
