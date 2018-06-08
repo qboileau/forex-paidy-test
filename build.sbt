@@ -19,6 +19,7 @@ resolvers +=
 
 val circeVersion = "0.9.3"
 val effVersion = "5.1.0"
+val http4sVersion = "0.18.2" //outdated version to match cats 1.0.1
 
 libraryDependencies ++= Seq(
   "com.github.pureconfig"          %% "pureconfig"           % "0.7.2",
@@ -34,8 +35,11 @@ libraryDependencies ++= Seq(
   "io.circe"                       %% "circe-parser"         % circeVersion,
   "org.atnos"                      %% "eff"                  % effVersion,
   "org.atnos"                      %% "eff-monix"            % effVersion,
+  "org.http4s"                     %% "http4s-circe"         % http4sVersion,
+  "org.http4s"                     %% "http4s-dsl"           % http4sVersion,
+  "org.http4s"                     %% "http4s-blaze-client"  % http4sVersion,
   "org.typelevel"                  %% "cats-core"            % "1.0.1",
-  "org.zalando"                    %% "grafter"              % "2.3.0",
+  "org.zalando"                    %% "grafter"              % "2.3.0",  //depend on cats 0.9.0 TODO update on new release
   "ch.qos.logback"                 %  "logback-classic"      % "1.2.3",
   "com.typesafe.scala-logging"     %% "scala-logging"        % "3.7.2",
   "org.scalatest"                  %% "scalatest"            % "3.0.5" % "test",

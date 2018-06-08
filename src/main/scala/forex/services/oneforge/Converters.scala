@@ -35,7 +35,6 @@ object Converters {
   def toTimestamp(
     timestamp: PTimestamp
   ): DTimestamp = {
-    println(timestamp.time)
     DTimestamp(timestamp.time.atOffset(ZoneOffset.UTC))
   }
 
