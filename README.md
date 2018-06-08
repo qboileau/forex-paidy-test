@@ -1,17 +1,28 @@
 # forex-paidy-test
 
-## Usage
+## Usage (SBT)
 
-- Running server : 
+- Build and run tests
+```bash
+sbt clean compile test
+``` 
+
+- Running server (SBT) : 
 ```bash
 export ONEFORGE_API_KEY="<your-oneforge-api-key>"
 sbt run
 ```
 
-- Running tests
+## Usage (Docker)
+- Build docker image : 
 ```bash
-sbt test
-``` 
+sbt docker:publishLocal
+```
+
+- Run container : 
+```bash
+docker run --rm -it -e ONEFORGE_API_KEY=<your-oneforge-api-key> --network host forex-proxy:1.0.0
+```
 
 ### Endpoints : 
 -  Get one rate 
@@ -33,6 +44,8 @@ curl http://localhost:8888/all
 - [ ] Add metrics on API calls (Writer monad ?)  
 - [ ] Add tests  
 - [ ] Add benchmark  
-- [ ] Create Dockerfile
+- [x] Docker packaging
+- [x] Add CI
 
+### Notes
 

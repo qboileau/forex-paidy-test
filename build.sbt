@@ -13,7 +13,6 @@ scalacOptions ++= Seq(
   "-language:experimental.macros",
   "-language:implicitConversions"
 )
-
 resolvers +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
@@ -46,3 +45,12 @@ libraryDependencies ++= Seq(
   compilerPlugin("org.spire-math"  %% "kind-projector"       % "0.9.4"),
   compilerPlugin("org.scalamacros" %% "paradise"             % "2.1.1" cross CrossVersion.full)
 )
+
+// sbt-native-packager properties
+enablePlugins(JavaAppPackaging)
+enablePlugins(DockerPlugin)
+enablePlugins(DockerSpotifyClientPlugin)
+
+packageSummary in Docker := "Forex proxy service"
+packageDescription := "Docker micro Service"
+packageName in Docker := "forex-proxy"
