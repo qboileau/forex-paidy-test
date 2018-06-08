@@ -20,9 +20,19 @@ trait Processes[F[_]] {
       implicit
       M: Monad[F],
       OneForge: OneForge[F]
-  ): F[Error Either Rate] =
+  ): F[ProcessError Either Rate] =
     (for {
       result ← EitherT(OneForge.get(Rate.Pair(request.from, request.to))).leftMap(toProcessError)
+    } yield result).value
+
+
+  def all()(
+    implicit
+    M: Monad[F],
+    OneForge: OneForge[F]
+  ) : F[ProcessError Either List[Rate]] =
+    (for {
+      result ← EitherT(OneForge.allRate()).leftMap(toProcessError)
     } yield result).value
 
 }

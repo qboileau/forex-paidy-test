@@ -1,6 +1,8 @@
 package forex.domain
 
+import cats.syntax.either._
 import cats.Show
+import forex.processes.rates.messages.ProcessError
 import io.circe._
 
 sealed trait Currency
@@ -15,7 +17,9 @@ object Currency {
   final case object SGD extends Currency
   final case object USD extends Currency
 
-  implicit val show: Show[Currency] = Show.show {
+  def all: Seq[Currency] = Seq(AUD, CAD, CHF, EUR, GBP, NZD, JPY, SGD, USD)
+
+  implicit val currencyShow: Show[Currency] = Show.show {
     case AUD ⇒ "AUD"
     case CAD ⇒ "CAD"
     case CHF ⇒ "CHF"
@@ -37,9 +41,12 @@ object Currency {
     case "JPY" | "jpy" ⇒ JPY
     case "SGD" | "sgd" ⇒ SGD
     case "USD" | "usd" ⇒ USD
+    case _ => throw ProcessError.Parsing(s"Unknown currency code : $s")
   }
 
-  implicit val encoder: Encoder[Currency] =
-    Encoder.instance[Currency] { show.show _ andThen Json.fromString }
+  implicit val encoder: Encoder[Currency] = Encoder.encodeString.contramap(currencyShow.show)
 
+  implicit val decoder: Decoder[Currency] = Decoder.decodeString.emap[Currency] { str =>
+    Either.catchNonFatal(Currency.fromString(str)).leftMap(t => t.getMessage)
+  }
 }
