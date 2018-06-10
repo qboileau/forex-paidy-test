@@ -1,6 +1,7 @@
 package forex.config
 
 import org.zalando.grafter.macros._
+import pureconfig.ConfigReader
 
 import scala.concurrent.duration.FiniteDuration
 
@@ -26,7 +27,14 @@ case class ExecutorsConfig(
     default: String
 )
 
+case class ApiKey(value: String) extends AnyVal
 case class OneForgeConfig(
-    apiKey: String,
+    apiKey: ApiKey,
     baseUrl: String
 )
+
+object ApiKey {
+  implicit val apiKeyReader: ConfigReader[ApiKey] =
+    ConfigReader.fromNonEmptyString[ApiKey](str => _ => Right(ApiKey(str)))
+}
+

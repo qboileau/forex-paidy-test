@@ -32,7 +32,7 @@ case class OneForgeClient(
   implicit val quotesDecoder = jsonOf[IO, List[Quote]]
 
   override def start: Eval[StartResult] = StartResult.eval("OneForgeHttpClient") {
-    if (config.apiKey.isEmpty) StartFailure("OneForge api key not provided")
+    if (config.apiKey.value.isEmpty) StartFailure("OneForge api key not provided")
     else {
       httpClient
       StartOk
@@ -72,6 +72,6 @@ case class OneForgeClient(
     import cats.implicits._
 
     val pairParam = symbols.map(_.show).mkString(",")
-    Uri.unsafeFromString(s"${config.baseUrl}/quotes?pairs=$pairParam&api_key=${config.apiKey}")
+    Uri.unsafeFromString(s"${config.baseUrl}/quotes?pairs=$pairParam&api_key=${config.apiKey.value}")
   }
 }
