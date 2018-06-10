@@ -28,7 +28,7 @@ object Converters {
   ): Either[ServiceError, Rate.Pair] =
     symbol.value.grouped(3).map(Currency.fromString).take(2).toList match {
       case from :: to :: Nil ⇒ Right(Rate.Pair(from, to))
-      case _ ⇒ Left(Generic)
+      case _ ⇒ Left(Generic(s"Unable to parse symbol ${symbol.value} into currency pair"))
     }
 
   def toTimestamp(
@@ -39,7 +39,5 @@ object Converters {
   def toPairSymbol(
       pair: Rate.Pair
   ): PairSymbol =
-    PairSymbol(
-      pair.from.show + pair.to.show
-    )
+    PairSymbol(pair.show)
 }
