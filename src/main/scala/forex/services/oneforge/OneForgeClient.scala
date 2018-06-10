@@ -45,19 +45,27 @@ case class OneForgeClient(
 
   def getAllRates(): IO[Either[ServiceError, List[Rate]]] = {
     val uri = quoteUrl(Rate.Pair.allSupported.map(toPairSymbol))
-    logger.debug(s"URI: $uri")
-    httpClient
-      .expect[List[Quote]](uri)
-      .map(_.map(toRate).sequence)
+    for {
+      _ <- IO(logger.debug(s"URI: $uri"))
+      result <- {
+        httpClient
+          .expect[List[Quote]](uri)
+          .map(_.map(toRate).sequence)
+      }
+    } yield result
   }
 
   def getRate(pair: Rate.Pair*): IO[Either[ServiceError, Rate]] = {
     val uri = quoteUrl(pair.map(toPairSymbol))
-    logger.debug(s"URI: $uri")
-    httpClient
-      .expect[List[Quote]](uri)
-      .map(_.head)
-      .map(toRate)
+    for {
+      _ <- IO(logger.debug(s"URI: $uri"))
+      result <- {
+        httpClient
+          .expect[List[Quote]](uri)
+          .map(_.head)
+          .map(toRate)
+      }
+    } yield result
   }
 
   private def quoteUrl(symbols: Seq[PairSymbol]): Uri = {
