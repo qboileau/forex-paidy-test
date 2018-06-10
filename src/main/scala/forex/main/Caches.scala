@@ -2,7 +2,7 @@ package forex.main
 
 import cats.Eval
 import forex.interfaces.api.utils.TimeUtils._
-import com.github.benmanes.caffeine.cache.{Caffeine, Cache => CCache}
+import com.github.benmanes.caffeine.cache.{ Caffeine, Cache ⇒ CCache }
 import forex.config.ApplicationConfig
 import org.atnos.eff.Cache
 import org.zalando.grafter.macros.readerOf
@@ -11,9 +11,10 @@ import scala.concurrent.duration._
 import scala.language.implicitConversions
 
 @readerOf[ApplicationConfig]
-case class Caches () {
+case class Caches() {
 
-  lazy val underlyingCache: CCache[AnyRef, Eval[Any]] = Caffeine.newBuilder()
+  lazy val underlyingCache: CCache[AnyRef, Eval[Any]] = Caffeine
+    .newBuilder()
     .expireAfterWrite(2.minute)
     .build[AnyRef, Eval[Any]]()
 
@@ -27,7 +28,7 @@ class CaffeineCache(underlyingCache: CCache[AnyRef, Eval[Any]]) extends Cache {
 
   override type C = Cache
 
-  override def memo[V](key: AnyRef, value: => V): V = {
+  override def memo[V](key: AnyRef, value: ⇒ V): V = {
     lazy val v = value
     if (map.putIfAbsent(key, Eval.later(v).memoize) == null) v
     else map.get(key).asInstanceOf[V]

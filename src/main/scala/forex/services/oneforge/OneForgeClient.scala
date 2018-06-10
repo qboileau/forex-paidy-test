@@ -46,8 +46,8 @@ case class OneForgeClient(
   def getAllRates(): IO[Either[ServiceError, List[Rate]]] = {
     val uri = quoteUrl(Rate.Pair.allSupported.map(toPairSymbol))
     for {
-      _ <- IO(logger.debug(s"URI: $uri"))
-      result <- {
+      _ ← IO(logger.debug(s"URI: $uri"))
+      result ← {
         httpClient
           .expect[List[Quote]](uri)
           .map(_.map(toRate).sequence)
@@ -58,8 +58,8 @@ case class OneForgeClient(
   def getRate(pair: Rate.Pair*): IO[Either[ServiceError, Rate]] = {
     val uri = quoteUrl(pair.map(toPairSymbol))
     for {
-      _ <- IO(logger.debug(s"URI: $uri"))
-      result <- {
+      _ ← IO(logger.debug(s"URI: $uri"))
+      result ← {
         httpClient
           .expect[List[Quote]](uri)
           .map(_.head)

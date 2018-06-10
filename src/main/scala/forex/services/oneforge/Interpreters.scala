@@ -39,7 +39,6 @@ private[oneforge] final class Dummy[R](
       result ← fromTask(Task.now(Rate.Pair.allSupported.map(Rate(_, Price(BigDecimal(100)), Timestamp.now))))
     } yield Right(result.toList)
 
-
   override def getCached(pair: Rate.Pair): Eff[R, Either[ServiceError, Rate]] = get(pair)
 }
 
@@ -51,22 +50,19 @@ private[oneforge] final class Live[R](
     m2: _memo[R]
 ) extends Algebra[Eff[R, ?]] {
 
-
   override def get(
       pair: Rate.Pair
-  ): Eff[R, ServiceError Either Rate] = {
+  ): Eff[R, ServiceError Either Rate] =
     fromTask(Task.fromIO(oneForgeClient.getRate(pair)))
-  }
 
   override def getCached(
-    pair: Rate.Pair
-  ): Eff[R, ServiceError Either Rate] = {
-    taskMemoized("all", allRate()).map { result =>
-      result.flatMap { rates =>
+      pair: Rate.Pair
+  ): Eff[R, ServiceError Either Rate] =
+    taskMemoized("all", allRate()).map { result ⇒
+      result.flatMap { rates ⇒
         rates.find(_.pair == pair).toRight(Generic(s"Unsupported pair of currency ${pair.show}"))
       }
     }
-  }
 
   override def allRate(): Eff[R, Either[ServiceError, List[Rate]]] =
     fromTask(Task.fromIO(oneForgeClient.getAllRates()))

@@ -7,7 +7,7 @@ import org.zalando.grafter.macros._
 
 @readerOf[ApplicationConfig]
 case class Runners(
-  caches: Caches
+    caches: Caches
 ) {
 
   def runApp[R](

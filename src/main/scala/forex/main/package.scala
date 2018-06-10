@@ -2,7 +2,7 @@ package forex
 
 import monix.eval.Task
 import monix.execution.Scheduler
-import org.atnos.eff.{|=, _}
+import org.atnos.eff.{ |=, _ }
 import org.zalando.grafter._
 
 import scala.concurrent.ExecutionContext

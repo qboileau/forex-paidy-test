@@ -1,6 +1,6 @@
 package forex.interfaces.api.utils
 
-import java.time.{Duration => JDuration}
+import java.time.{ Duration ⇒ JDuration }
 import scala.concurrent.duration._
 import scala.language.implicitConversions
 
